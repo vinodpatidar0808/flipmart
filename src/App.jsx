@@ -5,6 +5,7 @@ import AuthProvider from './context/AuthProvider';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import Products from './pages/Products';
+import ProtectedRoute from './pages/ProtectedRoute';
 import SignupLogin from './pages/SignupLogin';
 
 function App() {
@@ -26,18 +27,22 @@ function App() {
                 path="login"
                 element={<SignupLogin type="login" />}
               />
-              {/* <Route
-                path="/user/orders"
-                element={<Orders />}
-              /> */}
-              <Route
-                path="/user/cart"
-                element={<Cart />}
-              />
+
               <Route
                 path="/products"
                 element={<Products />}
               />
+
+              <Route element={<ProtectedRoute />}>
+                {/* <Route
+                path="/user/orders"
+                element={<Orders />}
+              /> */}
+                <Route
+                  path="/user/cart"
+                  element={<Cart />}
+                />
+              </Route>
             </Routes>
           </AuthProvider>
         </BrowserRouter>

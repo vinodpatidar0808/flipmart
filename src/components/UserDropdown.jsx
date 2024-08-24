@@ -15,8 +15,7 @@ export default function UserDropdown() {
 
   const handleLogout = async () => {
     // TODO: logout
-    const res = await logOut();
-    console.log('res', res);
+    await logOut();
   };
 
   // Component is taken from flowbite https://flowbite.com/docs/components/dropdowns/

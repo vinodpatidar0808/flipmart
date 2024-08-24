@@ -43,7 +43,10 @@ const SignupLogin = ({ type }) => {
         navigate('/');
       }
     } else {
-      loginUser(userDetails.email, userDetails.password);
+      const res = await loginUser(userDetails.email, userDetails.password);
+      if (res) {
+        navigate('/');
+      }
     }
   };
 
