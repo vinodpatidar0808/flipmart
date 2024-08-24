@@ -5,7 +5,7 @@ import ServiceCard from '../components/ServiceCard';
 const Home = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="flex bg-gradient-to-r from-primaryLighter to-primaryLight py-10 px-10">
         <div className="flex flex-col gap-3 px-20 items-center justify-center w-1/2">
           <p className="text-primary font-bold text-4xl">
