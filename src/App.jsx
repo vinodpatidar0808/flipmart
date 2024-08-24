@@ -2,9 +2,10 @@ import './App.css';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthProvider from './context/AuthProvider';
-import Home from './pages/Home';
-import SignupLogin from './pages/SignupLogin';
 import Cart from './pages/Cart';
+import Home from './pages/Home';
+import Products from './pages/Products';
+import SignupLogin from './pages/SignupLogin';
 
 function App() {
   return (
@@ -32,6 +33,10 @@ function App() {
               <Route
                 path="/user/cart"
                 element={<Cart />}
+              />
+              <Route
+                path="/products"
+                element={<Products />}
               />
             </Routes>
           </AuthProvider>
