@@ -39,9 +39,9 @@ const AuthProvider = ({ children }) => {
   const loginUser = async (email, password) => {
     setLoading(true);
     const res = await signInWithEmailAndPassword(auth, email, password);
-    if (res) {
-      await getUserDetailFromId(res.user.uid);
-    }
+    // if (res) {
+    //   await getUserDetailFromId(res.user.uid);
+    // }
     return res;
   };
 
@@ -56,8 +56,12 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
+        const res = await getUserDetailFromId(currentUser.uid);
+        if (res) {
+          currentUser = { ...currentUser, isAdmin: res.isAdmin };
+        }
         setUser(currentUser);
         setLoading(false);
       }
