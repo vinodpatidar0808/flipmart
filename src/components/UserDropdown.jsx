@@ -12,6 +12,7 @@ export default function UserDropdown() {
   };
 
   const { user, logOut } = useContext(AuthContext);
+  const isAdmin = user?.isAdmin;
 
   const handleLogout = async () => {
     // TODO: logout
@@ -74,6 +75,18 @@ export default function UserDropdown() {
               Sign out
             </a>
           </li>
+          {isAdmin && (
+            <>
+              <li>
+                <Link
+                  to={'admin'}
+                  className="flex px-4 py-2 hover:bg-gray-100 hover:text-primary">
+                  Dashboard  <span className="pl-1 text-primary text-sm">(Admin)</span>
+                </Link>
+              </li>
+              
+            </>
+          )}
         </ul>
       </div>
     </div>

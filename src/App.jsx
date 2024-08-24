@@ -2,7 +2,9 @@ import './App.css';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthProvider from './context/AuthProvider';
+import AdminRoute from './pages/AdminRoute';
 import Cart from './pages/Cart';
+import CreateProduct from './pages/CreateProduct';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProtectedRoute from './pages/ProtectedRoute';
@@ -41,6 +43,18 @@ function App() {
                 <Route
                   path="/user/cart"
                   element={<Cart />}
+                />
+              </Route>
+
+              {/* admin routes */}
+              <Route element={<AdminRoute />}>
+                <Route
+                  path="/admin"
+                  element={<Products />}
+                />
+                <Route
+                  path="/admin/createproduct"
+                  element={<CreateProduct />}
                 />
               </Route>
             </Routes>

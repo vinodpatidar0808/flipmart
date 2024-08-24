@@ -13,7 +13,12 @@ const Header = () => {
         <Loader />
       </Portal> */}
       <nav className="sticky top-0 bg-white z-50 border-b-1 shadow-md flex items-center justify-between px-12 py-6 w-screen ">
-        <div className="text-2xl font-bold text-primary">Flipmart</div>
+        <div className=" relative  text-2xl font-bold text-primary">
+          Flipmart
+          {user?.isAdmin && (
+            <span className="text-secondary text-sm absolute -bottom-3  right-0 ">Admin</span>
+          )}
+        </div>
 
         <div className="flex gap-3 ">
           <div>Home</div>
