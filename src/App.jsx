@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthProvider from './context/AuthProvider';
 import Home from './pages/Home';
 import SignupLogin from './pages/SignupLogin';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -28,10 +29,10 @@ function App() {
                 path="/user/orders"
                 element={<Orders />}
               /> */}
-              {/* <Route
+              <Route
                 path="/user/cart"
                 element={<Cart />}
-              /> */}
+              />
             </Routes>
           </AuthProvider>
         </BrowserRouter>
