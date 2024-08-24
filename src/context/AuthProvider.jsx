@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { createContext, useEffect, useState } from 'react';
 import { auth } from '../configs/firebase';
+import { addUserToDb, getUserDetailFromId } from '../utils/firebase';
 
 export const AuthContext = createContext(null);
 
@@ -20,8 +21,14 @@ const AuthProvider = ({ children }) => {
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
       if (res.user) {
-        await updateProfile(res.user, {displayName: name});
-        // await writeUserData(res.user.uid, name, email);
+        // TODO: search for a solution on how to insert customField in profile
+        await updateProfile(res.user, { displayName: name });
+        await addUserToDb({
+          name: name,
+          email: email,
+          uid: res.user.uid,
+          isAdmin: false,
+        });
       }
       return res;
     } catch (error) {
@@ -29,9 +36,13 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const loginUser = (email, password) => {
+  const loginUser = async (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    if (res) {
+      await getUserDetailFromId(res.user.uid);
+    }
+    return res;
   };
 
   const logOut = async () => {
