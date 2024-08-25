@@ -8,7 +8,7 @@ const CartItem = ({ product }) => {
 
   const updateQuantity = (action) => {
     if (action === 'DEC') {
-      
+
       if (product.quantity > 1) {
         updateCart({
           ...product,
@@ -25,7 +25,6 @@ const CartItem = ({ product }) => {
       quantity: product.quantity + 1,
     });
 
-    console.log(action);
   };
 
   return (

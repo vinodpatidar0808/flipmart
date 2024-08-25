@@ -15,7 +15,6 @@ const Orders = () => {
     }
   };
 
-  console.log(orders);
   /*eslint-disable*/
   useEffect(() => {
     if (!user) {

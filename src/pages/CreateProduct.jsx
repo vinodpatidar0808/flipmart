@@ -30,7 +30,6 @@ const CreateProduct = ({ type }) => {
     } else {
       res = await addProductToDb({ ...product, image: imageUrl });
     }
-    console.log('res', res);
     setLoading(false);
     navigate('/admin');
   };

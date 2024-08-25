@@ -11,7 +11,6 @@ const Admin = () => {
 
   const getProducts = async () => {
     const res = await getAdminProducts();
-    console.log(res);
     setProducts(res);
     setLoading(false);
   };
