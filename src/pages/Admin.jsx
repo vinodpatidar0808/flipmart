@@ -11,6 +11,7 @@ const Admin = () => {
 
   const getProducts = async () => {
     const res = await getAdminProducts();
+    console.log(res);
     setProducts(res);
     setLoading(false);
   };
@@ -38,10 +39,16 @@ const Admin = () => {
           Add product
         </Link>
       </div>
-      <div>
+      <div className="flex  flex-col items-center">
         <h1>Products</h1>
         <div>
-          <AdminProduct />
+          {products.map((product) => (
+            <AdminProduct
+              key={product.id}
+              product={product}
+            />
+          ))}
+          {/* <AdminProduct /> */}
         </div>
       </div>
     </div>

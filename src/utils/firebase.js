@@ -70,3 +70,14 @@ export const getAdminProducts = async () => {
     return [];
   }
 };
+
+export const deleteProductWithId = async (id) => {
+  try {
+    const docRef = doc(firestoreDb, 'products', id);
+    const res = await setDoc(docRef, { deleted: 1, updated: Date.now() }, { merge: true });
+    console.log('res', res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
