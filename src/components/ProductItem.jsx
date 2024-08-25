@@ -1,14 +1,23 @@
 import { useContext } from 'react';
 import { FaStar } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthProvider';
-
+import { CartContext } from '../context/CartContext';
 
 const ProductItem = ({ product }) => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+
+  const { updateCart } = useContext(CartContext);
   const isAuthenticated = user && Object.keys(user).length > 0;
 
-  const handleAddToCart = () => {};
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+
+    updateCart({ ...product, quantity: 1 });
+  };
 
   return (
     <div className="w-64 h-96 bg-white flex flex-col gap-2 border-2 hover:shadow-lg">
@@ -41,7 +50,9 @@ const ProductItem = ({ product }) => {
             <p className="font-bold">&#8377;{product.discounted_price}</p>
           </div>
           {isAuthenticated && (
-            <button className="border bg-secondary rounded-md font-semibold text-white hover:shadow-md px-2 py-2">
+            <button
+              onClick={handleAddToCart}
+              className="border bg-secondary rounded-md font-semibold text-white hover:shadow-md px-2 py-2">
               Add to cart
             </button>
           )}

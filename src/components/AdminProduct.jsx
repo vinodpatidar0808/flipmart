@@ -77,8 +77,8 @@ const AdminProduct = ({ product, setLoading }) => {
           </p>
         </div>
         {/* product description */}
-        <div>
-          <span className="font-semibold">Description:</span> {description}
+        <div className="">
+          <span className="font-semibold">Description:</span> {description.substring(0, 50) + '...'}
         </div>
 
         {/* <div className="flex gap-3 self-end">
