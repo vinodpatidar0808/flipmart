@@ -16,11 +16,11 @@ const Admin = () => {
     setLoading(false);
   };
 
-  /*eslint-disable */
+  /*eslint-disable*/
   useEffect(() => {
     getProducts();
   }, []);
-  /*eslint-enable */
+  /*eslint-enable*/
 
   if (loading) {
     return (

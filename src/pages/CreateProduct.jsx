@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import Fileuploader from '../components/Fileuploader';
 import Loader from '../components/Loader';
 import Portal from '../components/Portal';
 import { addProductToDb } from '../utils/firebase';
 
 const CreateProduct = () => {
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
   const [product, setProduct] = useState({
     product_name: '',
     // product_category: [],
@@ -19,7 +21,7 @@ const CreateProduct = () => {
   const handleCreateProduct = async () => {
     // TODO: add product
     setLoading(true);
-    const res = await addProductToDb(product);
+    const res = await addProductToDb({ ...product, image: imageUrl });
     console.log('res', res);
     setLoading(false);
   };
@@ -168,6 +170,10 @@ const CreateProduct = () => {
             // max={}
             required
           />
+        </div>
+
+        <div>
+          <Fileuploader imageUrl={imageUrl} setImageUrl={setImageUrl} loading={loading} setLoading={setLoading} />
         </div>
       </div>
 
