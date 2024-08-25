@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Fileuploader from '../components/Fileuploader';
 import Loader from '../components/Loader';
 import Portal from '../components/Portal';
-import { addProductToDb } from '../utils/firebase';
+import { addProductToDb, getProductById, updateProductById } from '../utils/firebase';
 
-const CreateProduct = () => {
+const CreateProduct = ({ type }) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [product, setProduct] = useState({
     product_name: '',
     // product_category: [],
@@ -16,26 +19,45 @@ const CreateProduct = () => {
     retail_price: '',
     discounted_price: '',
     image: '',
-    // images: [],
   });
+
   const handleCreateProduct = async () => {
     // TODO: add product
     setLoading(true);
-    const res = await addProductToDb({ ...product, image: imageUrl });
+    let res = null;
+    if (type === 'update' && id) {
+      res = await updateProductById({ ...product, image: imageUrl }, id);
+    } else {
+      res = await addProductToDb({ ...product, image: imageUrl });
+    }
     console.log('res', res);
+    setLoading(false);
+    navigate('/admin');
+  };
+
+  const getProduct = async () => {
+    // TODO: get product
+    setLoading(true);
+    const res = await getProductById(id);
+    if (res) {
+      setProduct(res);
+      setImageUrl(res.image);
+    }
     setLoading(false);
   };
 
-  const handleFormFieldChange = (e) => {
-    console.log('name, value', e.target.name, e.target.value);
-    // TODO: modify accordingly
-    // if(e.target.name === 'image') {
+  /*eslint-disable*/
+  useEffect(() => {
+    if (type === 'update' && id) {
+      getProduct();
+    }
+  }, []);
+  /*eslint-enable*/
 
-    // }
+  const handleFormFieldChange = (e) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
-  console.log('product', product);
 
   if (loading) {
     return (
@@ -154,26 +176,28 @@ const CreateProduct = () => {
         {/* product image */}
         {/* implement input field to take image url, once everything works introduce storage bucket and change flow. */}
         {/* TODO: Remove input field or make user select one of the 2 option and then handle accordingly */}
-        <div>
+        {/* <div>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Product Image Url
           </label>
-          {/* TODO: max value of discounted price should be less than retail price */}
           <input
             type="text"
             name="image"
-            // value={product.images?.[0] ?? ''}
             value={product.image}
             onChange={handleFormFieldChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:ring-primary focus:border-primary block w-full p-2.5 "
             placeholder="Insert product image url here..."
-            // max={}
             required
           />
-        </div>
+        </div> */}
 
         <div>
-          <Fileuploader imageUrl={imageUrl} setImageUrl={setImageUrl} loading={loading} setLoading={setLoading} />
+          <Fileuploader
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            loading={loading}
+            setLoading={setLoading}
+          />
         </div>
       </div>
 

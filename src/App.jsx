@@ -64,7 +64,7 @@ function App() {
                   />
                   <Route
                     path="/admin/updateproduct/:id"
-                    element={<CreateProduct />}
+                    element={<CreateProduct type={'update'} />}
                   />
                 </Route>
               </Route>

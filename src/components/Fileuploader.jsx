@@ -42,6 +42,7 @@ const Fileuploader = ({ imageUrl, setImageUrl, setLoading }) => {
         className="block w-full text-sm outline-none text-gray-900 border border-primary rounded-lg cursor-pointer bg-gray-50 "
         type="file"
         onChange={handleFileChange}
+        disabled={imageUrl}
         // multiple
       />
       {/* <button

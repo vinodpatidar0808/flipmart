@@ -1,7 +1,8 @@
 import { FaPen, FaTrash } from 'react-icons/fa';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import { deleteProductById } from '../utils/firebase';
 
-const AdminProduct = ({ product }) => {
+const AdminProduct = ({ product, setLoading }) => {
   const {
     id,
     product_name,
@@ -14,7 +15,15 @@ const AdminProduct = ({ product }) => {
   } = product;
 
   const handleDelete = async () => {
-    console.log("delete");
+    setLoading(true);
+    const res = await deleteProductById(id);
+    if (res.es === 0) {
+      console.log('product deleted', res.message);
+    } else {
+      console.log('product not deleted', res.message);
+    }
+    setLoading(false);
+    console.log('delete');
   };
 
   return (
@@ -35,10 +44,14 @@ const AdminProduct = ({ product }) => {
           </p>
           {/* buttons for updating and deleting product */}
           <div className="flex gap-3">
-            <Link to={`/admin/updateproduct/${id}`} className="hover:shadow-lg border border-primary rounded-full px-2 py-2">
+            <Link
+              to={`/admin/updateproduct/${id}`}
+              className="hover:shadow-lg border border-primary rounded-full px-2 py-2">
               <FaPen className="text-secondary" />
             </Link>
-            <button onClick={handleDelete} className="hover:shadow-lg border rounded-full border-primary px-2 py-2">
+            <button
+              onClick={handleDelete}
+              className="hover:shadow-lg border rounded-full border-primary px-2 py-2">
               <FaTrash className="text-red-600" />
             </button>
           </div>

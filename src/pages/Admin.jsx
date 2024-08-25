@@ -46,6 +46,7 @@ const Admin = () => {
             <AdminProduct
               key={product.id}
               product={product}
+              setLoading={setLoading}
             />
           ))}
           {/* <AdminProduct /> */}
