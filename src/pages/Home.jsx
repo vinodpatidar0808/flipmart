@@ -1,7 +1,25 @@
+import { useEffect, useState } from 'react';
 import { FaCarSide, FaExchangeAlt, FaPhone, FaUserShield } from 'react-icons/fa';
+import Loader from '../components/Loader';
+import ProductItem from '../components/ProductItem';
 import ServiceCard from '../components/ServiceCard';
+import { getAdminProducts } from '../utils/firebase';
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    const res = await getAdminProducts(30);
+    setProducts(res);
+    setLoading(false);
+  };
+  /*eslint-disable*/
+  useEffect(() => {
+    getProducts();
+  }, []);
+  /*eslint-enable*/
+
   return (
     <>
       {/* <Header /> */}
@@ -45,6 +63,26 @@ const Home = () => {
           description={'Faster support round the clock'}>
           <FaPhone className="text-white rotate-45 w-16 h-16" />
         </ServiceCard>
+      </div>
+
+      <div className="flex flex-col items-center justify-center min-h-32 gap-5  px-10">
+        {loading ? (
+          <div>
+            <Loader />
+          </div>
+        ) : (
+          <>
+            <h2 className="text-gray-800 text-xl">Recent Arrivals</h2>
+            <div className="flex flex-wrap gap-5">
+              {products.map((product) => (
+                <ProductItem
+                  key={product.id}
+                  product={product}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </>
   );

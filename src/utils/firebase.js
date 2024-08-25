@@ -55,10 +55,15 @@ export const addProductToDb = async (product) => {
   }
 };
 
-export const getAdminProducts = async () => {
+export const getAdminProducts = async (numOfProducts = 10) => {
   try {
     const productsRef = collection(firestoreDb, 'products');
-    const q = query(productsRef, where('deleted', '==', 0), orderBy('created', 'desc'), limit(10));
+    const q = query(
+      productsRef,
+      where('deleted', '==', 0),
+      orderBy('created', 'desc'),
+      limit(numOfProducts)
+    );
     const querySnapshot = await getDocs(q);
     const products = [];
     querySnapshot.forEach((doc) => {
@@ -75,7 +80,7 @@ export const deleteProductById = async (id) => {
   try {
     const docRef = doc(firestoreDb, 'products', id);
     await setDoc(docRef, { deleted: 1, updated: Date.now() }, { merge: true });
-    return { es: 0,  message: 'Product Delete Successfully' };
+    return { es: 0, message: 'Product Deleted Successfully' };
   } catch (error) {
     console.log(error);
     return { es: 1, message: 'Failed to Delete product. Please try again.' };

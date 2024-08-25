@@ -18,12 +18,12 @@ const AdminProduct = ({ product, setLoading }) => {
     setLoading(true);
     const res = await deleteProductById(id);
     if (res.es === 0) {
+      // TODO: toast message here
       console.log('product deleted', res.message);
     } else {
       console.log('product not deleted', res.message);
     }
     setLoading(false);
-    console.log('delete');
   };
 
   return (
