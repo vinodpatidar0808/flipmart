@@ -1,23 +1,47 @@
-import { useState } from "react";
+import { useState } from 'react';
+import Loader from '../components/Loader';
+import Portal from '../components/Portal';
+import { addProductToDb } from '../utils/firebase';
 
 const CreateProduct = () => {
+  const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState({
     product_name: '',
-    product_category: [''],
+    // product_category: [],
+    product_category: '',
     description: '',
     brand: '',
-    retail_price: "",
-    discounted_price: "",
-    images: [''],
+    retail_price: '',
+    discounted_price: '',
+    image: '',
+    // images: [],
   });
   const handleCreateProduct = async () => {
     // TODO: add product
+    setLoading(true);
+    const res = await addProductToDb(product);
+    console.log('res', res);
+    setLoading(false);
   };
 
   const handleFormFieldChange = (e) => {
+    console.log('name, value', e.target.name, e.target.value);
     // TODO: modify accordingly
+    // if(e.target.name === 'image') {
+
+    // }
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
+
+  console.log('product', product);
+
+  if (loading) {
+    return (
+      <Portal>
+        <Loader />
+      </Portal>
+    );
+  }
 
   return (
     <div className=" flex flex-col gap-3  items-center py-5 px-5">
@@ -46,6 +70,7 @@ const CreateProduct = () => {
           </label>
           <select
             name="product_category"
+            // value={product.product_category?.[0] ?? ""}
             value={product.product_category}
             onChange={handleFormFieldChange}
             className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary block w-full p-2.5 ">
@@ -135,7 +160,8 @@ const CreateProduct = () => {
           <input
             type="text"
             name="image"
-            value={product.images[0]}
+            // value={product.images?.[0] ?? ''}
+            value={product.image}
             onChange={handleFormFieldChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg outline-none focus:ring-primary focus:border-primary block w-full p-2.5 "
             placeholder="Insert product image url here..."

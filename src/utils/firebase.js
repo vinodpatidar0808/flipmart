@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { firestoreDb } from '../configs/firebase';
 
 export const addUserToDb = async (user) => {
@@ -25,5 +25,21 @@ export const getUserDetailFromId = async (id) => {
   } else {
     console.log('No such document!');
     return null;
+  }
+};
+
+export const addProductToDb = async (product) => {
+  // TODO: add product to db
+  try {
+    // add doc creates a document and auto generates an id
+    const docRef = await addDoc(collection(firestoreDb, 'products'), {
+      ...product,
+      created: Date.now(),
+      updated: Date.now(),
+      deleted: 0,
+    });
+    console.log('Document written with ID: ', docRef.id, docRef);
+  } catch (error) {
+    console.log(error);
   }
 };
