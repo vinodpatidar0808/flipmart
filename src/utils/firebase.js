@@ -48,6 +48,8 @@ export const addProductToDb = async (product) => {
       ...product,
       created: Date.now(),
       updated: Date.now(),
+      product_rating: 'No rating available',
+      overall_rating: 'No rating available',
       deleted: 0,
     });
     console.log('Document written with ID: ', docRef.id, docRef);
@@ -140,15 +142,37 @@ export const createOrder = async (user, orders, amount) => {
   }
 };
 
-export const getOrdersForUser = async (user, numberOfOrders = 10) => {
+export const getOrdersForUser = async (user, startDate, endDate, numberOfOrders = 10) => {
   try {
     const ordersRef = collection(firestoreDb, 'orders');
-    const q = query(
-      ordersRef,
-      where('userid', '==', user.uid),
-      orderBy('created', 'desc'),
-      limit(numberOfOrders)
-    );
+
+    let q;
+    if (startDate && endDate) {
+      q = query(
+        ordersRef,
+        where('userid', '==', user.uid),
+        where('created', '>=', startDate),
+        where('created', '<=', endDate),
+        orderBy('created', 'desc'),
+        limit(numberOfOrders)
+      );
+    } else if (startDate) {
+      q = query(
+        ordersRef,
+        where('userid', '==', user.uid),
+        where('created', '>=', startDate),
+        orderBy('created', 'desc'),
+        limit(numberOfOrders)
+      );
+    } else {
+      q = query(
+        ordersRef,
+        where('userid', '==', user.uid),
+        orderBy('created', 'desc'),
+        limit(numberOfOrders)
+      );
+    }
+
     const querySnapshot = await getDocs(q);
     const orders = [];
     querySnapshot.forEach((doc) => {
@@ -197,5 +221,38 @@ export const getOrdersForAdmin = async (numberOfOrders = 10, startDate, endDate)
   } catch (error) {
     console.log(error);
     return { es: 1, message: 'Failed to get orders. Please try again.' };
+  }
+};
+
+export const getProducts = async () => {
+  try {
+    const res = await getDocs(collection(firestoreDb, 'products'));
+    const products = [];
+    res.forEach((doc) => {
+      products.push({ ...doc.data(), id: doc.id });
+    });
+    return { es: 0, products };
+  } catch (error) {
+    console.log(error);
+    return { es: 1, message: 'Failed to get products. Please try again.' };
+  }
+};
+
+export const getProductsForListing = async (keyword, numberOfOrders = 10) => {
+  try {
+    const productsRef = collection(firestoreDb, 'products');
+
+    let q = query(productsRef, orderBy('created', 'desc'), limit(numberOfOrders));
+
+    const querySnapshot = await getDocs(q);
+    const products = [];
+    querySnapshot.forEach((doc) => {
+      products.push({ ...doc.data(), id: doc.id });
+    });
+
+    return { es: 0, products };
+  } catch (error) {
+    console.log(error);
+    return { es: 1, message: 'Failed to get products. Please try again.' };
   }
 };

@@ -26,7 +26,7 @@ const Header = () => {
 
         <div className="flex gap-3 ">
           <Link to={'/'}>Home</Link>
-          <div>Categories</div>
+          <Link to={'/products'}>Products</Link>
         </div>
 
         <div className="flex gap-3">

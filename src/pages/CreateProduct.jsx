@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Fileuploader from '../components/Fileuploader';
 import Loader from '../components/Loader';
 import Portal from '../components/Portal';
+import { categories } from '../utils/constants';
 import { addProductToDb, getProductById, updateProductById } from '../utils/firebase';
 
 const CreateProduct = ({ type }) => {
@@ -57,7 +58,6 @@ const CreateProduct = ({ type }) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
-
   if (loading) {
     return (
       <Portal>
@@ -99,9 +99,13 @@ const CreateProduct = ({ type }) => {
             className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-primary block w-full p-2.5 ">
             {/* TODO: introduce dynamic categories */}
             <option value="">Choose a category</option>
-            <option value="US">Clothing</option>
-            <option value="CA">Footwear</option>
-            <option value="FR">Sunglasses</option>
+            {categories.map((category) => (
+              <option
+                key={category.name}
+                value={category.value}>
+                {category.value}
+              </option>
+            ))}
           </select>
         </div>
 

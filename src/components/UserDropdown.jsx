@@ -47,34 +47,26 @@ export default function UserDropdown() {
         <ul
           className="w-full flex-1 py-2 text-sm text-gray-700  flex flex-col  justify-stretch"
           aria-labelledby="dropdownDefaultButton">
-          <li className="w-full">
+          {/* <li className="w-full">
             <Link
               href="#"
               className="flex w-full px-4 py-2 hover:bg-gray-100 hover:text-primary ">
               Profile
             </Link>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <Link
               href="#"
               className="flex px-4 py-2 hover:bg-gray-100 hover:text-primary">
               Settings
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link
               to={'user/orders'}
               className="flex px-4 py-2 hover:bg-gray-100 hover:text-primary">
               Orders
             </Link>
-          </li>
-          <li>
-            <a
-              onClick={handleLogout}
-              // href="#"
-              className="flex px-4 py-2 hover:bg-gray-100 hover:text-primary">
-              Sign out
-            </a>
           </li>
           {isAdmin && (
             <>
@@ -87,6 +79,14 @@ export default function UserDropdown() {
               </li>
             </>
           )}
+          <li>
+            <a
+              onClick={handleLogout}
+              // href="#"
+              className="flex px-4 py-2 hover:bg-gray-100 hover:text-primary">
+              Sign out
+            </a>
+          </li>
         </ul>
       </div>
     </div>

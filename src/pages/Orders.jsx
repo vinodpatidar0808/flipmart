@@ -29,7 +29,7 @@ const Orders = () => {
     if (isAdmin) {
       res = await getOrdersForAdmin(10, startDate, endDate);
     } else {
-      res = await getOrdersForUser(user);
+      res = await getOrdersForUser(user, startDate, endDate);
     }
     if (res.es === 0) {
       setOrders(res.orders);
