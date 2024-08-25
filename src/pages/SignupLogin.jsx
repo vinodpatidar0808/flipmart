@@ -95,7 +95,7 @@ const SignupLogin = ({ type }) => {
             <label>Password:</label>
             <input
               className="w-full border rounded-md px-2 py-2 border-primary outline-none focus:border-2"
-              type="text"
+              type="password"
               name="password"
               placeholder="Name"
               onChange={handleInputChange}
@@ -108,7 +108,7 @@ const SignupLogin = ({ type }) => {
               <label>Confirm Password:</label>
               <input
                 className="w-full border rounded-md px-2 py-2 border-primary outline-none focus:border-2"
-                type="text"
+                type="password"
                 name="confirmPassword"
                 placeholder="Name"
                 onChange={handleInputChange}
@@ -121,7 +121,7 @@ const SignupLogin = ({ type }) => {
             onClick={handleSubmit}
             type="button"
             disabled={disableLoginSignupbutton()}
-            className="border rounded-md border-secondary text-primary font-bold py-3 hover:bg-secondary hover:text-white disabled:bg-gray-400 disabled:border-transparent disabled:text-white disabled:pointer-events-none">
+            className="border rounded-md outline-none border-secondary text-primary font-bold py-3 hover:bg-secondary hover:text-white disabled:bg-gray-400 disabled:border-transparent disabled:text-white disabled:pointer-events-none">
             {type === 'signup' ? 'Signup' : 'Login'}
           </button>
         </div>
