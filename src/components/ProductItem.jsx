@@ -21,7 +21,6 @@ const ProductItem = ({ product }) => {
 
   return (
     <div className="w-64 h-96 bg-white flex flex-col gap-2 border-2 hover:shadow-lg">
-      <p>{product.id}</p>
       <div className="w-full flex justify-center items-center h-[3/5] overflow-hidden">
         <img
           className="object-contain w-full h-full hover:shadow-lg"

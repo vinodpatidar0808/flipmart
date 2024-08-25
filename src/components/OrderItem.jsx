@@ -18,11 +18,11 @@ const OrderItem = ({ order }) => {
   const delivery = subTotal - discount > 499 ? 0 : 50;
   const total = subTotal - discount + delivery + 10;
 
-  
+
 
   return (
-    <div className="flex flex-col shadow-md py-2  ">
-      <div className="flex justify-between px-5 font-semibold ">
+    <div className="flex flex-col shadow-md py-2 border-t-2 ">
+      <div className="flex justify-between px-5 pb-2 font-semibold ">
         <p>Order id: #{order.id}</p>
         <p> {formattedDate}</p>
       </div>

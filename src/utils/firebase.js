@@ -154,7 +154,45 @@ export const getOrdersForUser = async (user, numberOfOrders = 10) => {
     querySnapshot.forEach((doc) => {
       orders.push({ ...doc.data(), id: doc.id });
     });
-    
+
+    return { es: 0, orders };
+  } catch (error) {
+    console.log(error);
+    return { es: 1, message: 'Failed to get orders. Please try again.' };
+  }
+};
+
+export const getOrdersForAdmin = async (numberOfOrders = 10, startDate, endDate) => {
+  console.log(startDate, endDate);
+
+  try {
+    const ordersRef = collection(firestoreDb, 'orders');
+
+    let q;
+    if (startDate && endDate) {
+      q = query(
+        ordersRef,
+        where('created', '>=', startDate),
+        where('created', '<=', endDate),
+        orderBy('created', 'desc'),
+        limit(numberOfOrders)
+      );
+    } else if (startDate) {
+      q = query(
+        ordersRef,
+        where('created', '>=', startDate),
+        orderBy('created', 'desc'),
+        limit(numberOfOrders)
+      );
+    } else {
+      q = query(ordersRef, orderBy('created', 'desc'), limit(numberOfOrders));
+    }
+    const querySnapshot = await getDocs(q);
+    const orders = [];
+    querySnapshot.forEach((doc) => {
+      orders.push({ ...doc.data(), id: doc.id });
+    });
+
     return { es: 0, orders };
   } catch (error) {
     console.log(error);
