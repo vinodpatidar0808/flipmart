@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import OrderItem from '../components/OrderItem';
 import { AuthContext } from '../context/AuthProvider';
 import { getOrdersForUser } from '../utils/firebase';
 
@@ -24,7 +25,16 @@ const Orders = () => {
   }, []);
   /*eslint-enable*/
 
-  return <div>Orders</div>;
+  return (
+    <div className="flex flex-col p-10 gap-5 mb-10 ">
+      {orders.map((order) => (
+        <OrderItem
+          key={order.id}
+          order={order}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default Orders;
