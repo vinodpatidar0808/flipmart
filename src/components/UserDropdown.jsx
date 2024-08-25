@@ -39,6 +39,7 @@ export default function UserDropdown() {
       </div>
 
       <div
+        onClick={handlUserClick}
         id="dropdown"
         className={`top-12 right-3 absolute z-10 ${
           isDropdownOpen ? 'flex' : 'hidden'
@@ -81,10 +82,9 @@ export default function UserDropdown() {
                 <Link
                   to={'admin'}
                   className="flex px-4 py-2 hover:bg-gray-100 hover:text-primary">
-                  Dashboard  <span className="pl-1 text-primary text-sm">(Admin)</span>
+                  Dashboard <span className="pl-1 text-primary text-sm">(Admin)</span>
                 </Link>
               </li>
-              
             </>
           )}
         </ul>

@@ -1,5 +1,4 @@
 import { FaCarSide, FaExchangeAlt, FaPhone, FaUserShield } from 'react-icons/fa';
-import Header from '../components/Header';
 import ServiceCard from '../components/ServiceCard';
 
 const Home = () => {
@@ -47,7 +46,6 @@ const Home = () => {
           <FaPhone className="text-white rotate-45 w-16 h-16" />
         </ServiceCard>
       </div>
-
     </>
   );
 };

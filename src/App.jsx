@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import AuthProvider from './context/AuthProvider';
+import Admin from './pages/Admin';
 import AdminRoute from './pages/AdminRoute';
 import Cart from './pages/Cart';
 import CreateProduct from './pages/CreateProduct';
@@ -55,7 +56,7 @@ function App() {
                 <Route element={<AdminRoute />}>
                   <Route
                     path="/admin"
-                    element={<Products />}
+                    element={<Admin />}
                   />
                   <Route
                     path="/admin/createproduct"
