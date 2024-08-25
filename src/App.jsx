@@ -9,6 +9,7 @@ import AdminRoute from './pages/AdminRoute';
 import Cart from './pages/Cart';
 import CreateProduct from './pages/CreateProduct';
 import Home from './pages/Home';
+import Orders from './pages/Orders';
 import Products from './pages/Products';
 import ProtectedRoute from './pages/ProtectedRoute';
 import SignupLogin from './pages/SignupLogin';
@@ -44,10 +45,10 @@ function App() {
                   {/* </Route> */}
 
                   <Route element={<ProtectedRoute />}>
-                    {/* <Route
-                path="/user/orders"
-                element={<Orders />}
-              /> */}
+                    <Route
+                      path="/user/orders"
+                      element={<Orders />}
+                    />
                     <Route
                       path="/user/cart"
                       element={<Cart />}

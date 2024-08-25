@@ -17,11 +17,15 @@ const Cart = () => {
       navigate('/login');
     }
     setLoading(true);
-    const res = await createOrder(user, cart, cartAmount.total);
+    const res = await createOrder(
+      user,
+      cart,
+      cartAmount.total + cartAmount.delivery + cartAmount.platform
+    );
     if (res.es === 0) {
       // TODO: toast message here
       clearCart();
-      navigate('/orders');
+      navigate('/user/orders');
     } else {
       console.log('something went wrong');
     }

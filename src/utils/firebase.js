@@ -1,7 +1,6 @@
 import { query } from 'firebase/database';
 import {
   addDoc,
-  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -9,7 +8,6 @@ import {
   limit,
   orderBy,
   setDoc,
-  updateDoc,
   where,
 } from 'firebase/firestore';
 import { firestoreDb } from '../configs/firebase';
@@ -20,7 +18,7 @@ export const addUserToDb = async (user) => {
     const docRef = doc(firestoreDb, 'users', user.uid);
     await setDoc(docRef, {
       ...user,
-      orders: [],
+      // orders: [],
       created: Date.now(),
       updated: Date.now(),
       deleted: 0,
@@ -120,23 +118,46 @@ export const createOrder = async (user, orders, amount) => {
       email: user.email,
       amount: amount,
       created: Date.now(),
-      products: [],
+      products: orders,
     });
 
+    // TODO: try to implement using relationships
     // Add the order reference to the user document
-    const userRef = doc(firestoreDb, 'users', user.uid);
-    await updateDoc(userRef, { orders: arrayUnion({ orderRef }) });
+    // const userRef = doc(firestoreDb, 'users', user.uid);
+    // await updateDoc(userRef, { orders: arrayUnion({ orderRef }) });
 
     // Add product references to the order
-    for (const product of orders) {
-      // Get the product document reference
-      const productRef = doc(firestoreDb, 'products', product.id);
-      // Add the product reference to the order
-      await updateDoc(orderRef, { products: arrayUnion({ productRef }) });
-    }
+    // for (const product of orders) {
+    //   // Get the product document reference
+    //   const productRef = doc(firestoreDb, 'products', product.id);
+    //   // Add the product reference to the order
+    //   await updateDoc(orderRef, { products: arrayUnion({ productRef }) });
+    // }
 
     return { es: 0, message: 'Order Placed successfully' };
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getOrdersForUser = async (user, numberOfOrders = 10) => {
+  try {
+    const ordersRef = collection(firestoreDb, 'orders');
+    const q = query(
+      ordersRef,
+      where('userid', '==', user.uid),
+      orderBy('created', 'desc'),
+      limit(numberOfOrders)
+    );
+    const querySnapshot = await getDocs(q);
+    const orders = [];
+    querySnapshot.forEach((doc) => {
+      orders.push({ ...doc.data(), id: doc.id });
+    });
+    
+    return { es: 0, orders };
+  } catch (error) {
+    console.log(error);
+    return { es: 1, message: 'Failed to get orders. Please try again.' };
   }
 };
