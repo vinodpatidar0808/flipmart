@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react';
 
 export const CartContext = createContext(null);
 
@@ -17,6 +17,7 @@ const CartProvider = ({ children }) => {
     } else {
       cartCopy.push(product);
     }
+    localStorage.setItem('cart', JSON.stringify(cartCopy));
     setCart(cartCopy);
   };
 
@@ -28,6 +29,5 @@ const CartProvider = ({ children }) => {
 
   return <CartContext.Provider value={cartValue}>{children}</CartContext.Provider>;
 };
-
 
 export default CartProvider;
