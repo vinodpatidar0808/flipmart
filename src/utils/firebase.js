@@ -1,6 +1,7 @@
 import { query } from 'firebase/database';
 import {
   addDoc,
+  arrayUnion,
   collection,
   doc,
   getDoc,
@@ -8,6 +9,7 @@ import {
   limit,
   orderBy,
   setDoc,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import { firestoreDb } from '../configs/firebase';
@@ -18,6 +20,7 @@ export const addUserToDb = async (user) => {
     const docRef = doc(firestoreDb, 'users', user.uid);
     await setDoc(docRef, {
       ...user,
+      orders: [],
       created: Date.now(),
       updated: Date.now(),
       deleted: 0,
@@ -103,6 +106,36 @@ export const updateProductById = async (product, id) => {
     const docRef = doc(firestoreDb, 'products', id);
     const res = await setDoc(docRef, { ...product, updated: Date.now() }, { merge: true });
     return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// TODO: make it a transaction, to update entries everywhere or failed entirly
+export const createOrder = async (user, orders, amount) => {
+  try {
+    // Create a new order document
+    const orderRef = await addDoc(collection(firestoreDb, 'orders'), {
+      userid: user.uid,
+      email: user.email,
+      amount: amount,
+      created: Date.now(),
+      products: [],
+    });
+
+    // Add the order reference to the user document
+    const userRef = doc(firestoreDb, 'users', user.uid);
+    await updateDoc(userRef, { orders: arrayUnion({ orderRef }) });
+
+    // Add product references to the order
+    for (const product of orders) {
+      // Get the product document reference
+      const productRef = doc(firestoreDb, 'products', product.id);
+      // Add the product reference to the order
+      await updateDoc(orderRef, { products: arrayUnion({ productRef }) });
+    }
+
+    return { es: 0, message: 'Order Placed successfully' };
   } catch (error) {
     console.log(error);
   }

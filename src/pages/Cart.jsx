@@ -1,9 +1,34 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthProvider';
 import { CartContext } from '../context/CartContext';
+import { createOrder } from '../utils/firebase';
 import CartItem from './../components/CartItem';
 
 const Cart = () => {
-  const { cart, cartAmount, itemsInCart } = useContext(CartContext);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { user } = useContext(AuthContext);
+  const { cart, cartAmount, itemsInCart, clearCart } = useContext(CartContext);
+  const isAuthenticated = Object.keys(user ?? {}).length > 0;
+
+  const handlePlaceOrder = async () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+    setLoading(true);
+    const res = await createOrder(user, cart, cartAmount.total);
+    if (res.es === 0) {
+      // TODO: toast message here
+      clearCart();
+      navigate('/orders');
+    } else {
+      console.log('something went wrong');
+    }
+
+    setLoading(false);
+  };
+
   return (
     <>
       <div className="flex px-10 gap-5 py-5  bg-gray-100">
@@ -18,7 +43,9 @@ const Cart = () => {
                 />
               ))}
               <div className="sticky bottom-0  flex items-center px-4 py-6 drop-shadow-2xl border-t shadow-neutral-500 opacity-100 bg-white justify-end">
-                <button className="bg-secondary text-white font-bold px-6 py-2 ">
+                <button
+                  onClick={handlePlaceOrder}
+                  className="bg-secondary text-white font-bold px-6 py-2 ">
                   Place Order
                 </button>
               </div>

@@ -38,9 +38,15 @@ const CartProvider = ({ children }) => {
     setCart(cartCopy);
   };
 
+  const clearCart = () => {
+    localStorage.removeItem('cart');
+    setCart([]);
+  };
+
   const cartValue = {
     itemsInCart: cart.reduce((total, product) => total + product.quantity, 0) || 0,
     cart,
+    clearCart,
     updateCart,
     removeItemFromCart,
     cartAmount: { ...getCartAmount() },
